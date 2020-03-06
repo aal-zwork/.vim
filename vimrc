@@ -10,23 +10,30 @@ else
     let $VIMSD = ".vim"
 endif
 
-set nocompatible
-filetype off
-set rtp+=~/$VIMSD/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'aal-zwork/perl-support'
-Plugin 'vim-perl/vim-perl'
-Plugin 'preservim/nerdtree'
-"Plugin 'tpope/vim-surround.vim'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'junegunn/fzf.vim'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'ryanoasis/vim-devicons'
-call vundle#end()
-filetype plugin indent on
+
+" Vundle
+if filereadable(expand("~/.vim/bundle/vundle/README.md"))
+    set nocompatible
+    filetype off
+    set rtp+=~/$VIMSD/bundle/Vundle.vim
+    call vundle#begin()
+    Plugin 'aal-zwork/perl-support'
+    Plugin 'vim-perl/vim-perl'
+    Plugin 'preservim/nerdtree'
+    "Plugin 'tpope/vim-surround.vim'
+    Plugin 'easymotion/vim-easymotion'
+    Plugin 'junegunn/fzf.vim'
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'ryanoasis/vim-devicons'
+    call vundle#end()
+    filetype plugin indent on
+end
 
 
 " UI Layout
+colorscheme 256-jungle
+colorscheme gruvbox
+syntax on
 set number
 set ruler
 set showcmd
@@ -34,9 +41,6 @@ set nocursorline
 set wildmenu
 set lazyredraw
 set showmatch
-colorscheme 256-jungle
-colorscheme gruvbox
-syntax on
 set mouse=a
 set fileformats=unix,dos,mac
 set scrolloff=5
@@ -130,7 +134,7 @@ augroup END
 
 
 " NERDTree
-if exists(g:NERDTree)
+if exists("g:NERDTree")
     silent! map <F3> :NERDTreeToggle<CR>
     autocmd VimEnter * NERDTree | wincmd p
     let g:NERDSpaceDelims = 1
@@ -150,20 +154,20 @@ end
 
 
 " Perl-support
-if exists(g:Perl_Ctrl_j)
+if exists("g:Perl_Ctrl_j")
     let g:Perl_SyntaxCheckOnlyFile = 'yes'
     let g:Perl_Ctrl_j = 'no'
 end
 
 
 " gitgutter
-if exists(g:gitgutter_async)
+if exists("g:gitgutter_async")
     silent! map <F4> :GitGutterToggle<CR>
 end
 
 
 " easymotion 
-if exists(g:EasyMotion_keys)
+if exists("g:EasyMotion_keys")
     map ; <Plug>(easymotion-prefix)
 end
 
