@@ -12,10 +12,11 @@ endif
 
 
 " Vundle
-if filereadable(expand("~/.vim/bundle/vundle/README.md"))
+let $vundle_path = '~/' . $VIMSD . '/bundle/Vundle.vim'
+if filereadable(expand($vundle_path . '/README.md'))
     set nocompatible
     filetype off
-    set rtp+=~/$VIMSD/bundle/Vundle.vim
+    set rtp+=$vundle_path
     call vundle#begin()
     Plugin 'aal-zwork/perl-support'
     Plugin 'vim-perl/vim-perl'
