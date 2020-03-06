@@ -135,7 +135,7 @@ augroup END
 
 
 " NERDTree
-if exists("g:loaded_nerd_tree")
+if filereadable(expand('~/' . $VIMSD . '/bundle/nerdtree/README.markdown'))
     silent! map <F3> :NERDTreeToggle<CR>
     autocmd VimEnter * NERDTree | wincmd p
     let g:NERDSpaceDelims = 1
@@ -155,20 +155,20 @@ end
 
 
 " Perl-support
-if exists("g:Perl_PluginVersion") 
+if filereadable(expand('~/' . $VIMSD . '/bundle/perl-support/README.md'))
     let g:Perl_SyntaxCheckOnlyFile = 'yes'
     let g:Perl_Ctrl_j = 'no'
 end
 
 
 " gitgutter
-if exists("g:loaded_gitgutter")
+if filereadable(expand('~/' . $VIMSD . '/bundle/vim-gitgutter/README.mkd'))
     silent! map <F4> :GitGutterToggle<CR>
 end
 
 
 " easymotion 
-if exists('g:EasyMotion_loaded')
+if filereadable(expand('~/' . $VIMSD . '/bundle/vim-easymotion/README.md'))
     map ; <Plug>(easymotion-prefix)
 end
 
