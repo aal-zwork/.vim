@@ -135,7 +135,7 @@ augroup END
 
 
 " NERDTree
-if exists("g:loaded_nerdtree")
+if exists("g:loaded_nerd_tree")
     silent! map <F3> :NERDTreeToggle<CR>
     autocmd VimEnter * NERDTree | wincmd p
     let g:NERDSpaceDelims = 1
