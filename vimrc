@@ -135,7 +135,7 @@ augroup END
 
 
 " NERDTree
-if exists("g:NERDTree")
+if exists("g:loaded_nerdtree")
     silent! map <F3> :NERDTreeToggle<CR>
     autocmd VimEnter * NERDTree | wincmd p
     let g:NERDSpaceDelims = 1
@@ -155,20 +155,20 @@ end
 
 
 " Perl-support
-if exists("g:Perl_Ctrl_j")
+if exists("g:Perl_PluginVersion") 
     let g:Perl_SyntaxCheckOnlyFile = 'yes'
     let g:Perl_Ctrl_j = 'no'
 end
 
 
 " gitgutter
-if exists("g:gitgutter_async")
+if exists("g:loaded_gitgutter")
     silent! map <F4> :GitGutterToggle<CR>
 end
 
 
 " easymotion 
-if exists("g:EasyMotion_keys")
+if exists('g:EasyMotion_loaded')
     map ; <Plug>(easymotion-prefix)
 end
 
