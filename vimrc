@@ -2,6 +2,7 @@ set langmenu=en_US
 set encoding=utf-8
 set fileencodings=utf-8,ucs-bom,cp1251,koi8-r,utf-16le,default,latin1
 let $LANG = 'en_US.utf-8'
+let $GIT_ASKPASS='true'
 
 if has('win32') || has ('win64')
     let $VIMSD = "vimfiles"
@@ -13,23 +14,19 @@ set nocompatible
 filetype off
 set rtp+=~/$VIMSD/bundle/Vundle.vim
 call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'perl-support/perl-support.vim'
-Plugin 'vim-perl/vim-perl.vim'
-Plugin 'nerdtree/nerdtree.vim'
+Plugin 'aal-zwork/perl-support'
+Plugin 'vim-perl/vim-perl'
+Plugin 'preservim/nerdtree'
 "Plugin 'tpope/vim-surround.vim'
-Plugin 'easymotion/vim-easymotion.vim'
-Plugin 'jumegunn/fzf'
-Plugin 'jumegunn/fzf.vim'
-Plugin 'airblade/vim-gitgutter.vim'
-Plugin 'ryanoasis/vim-devicons.vim'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'junegunn/fzf.vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'ryanoasis/vim-devicons'
 call vundle#end()
 filetype plugin indent on
 
 
-"
-" UI Layout {{{
-"
+" UI Layout
 set number
 set ruler
 set showcmd
@@ -57,12 +54,9 @@ set laststatus=2
 if has("statusline")
  set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
 endif
-" }
 
 
-"
 " Spaces & Tabs {{{
-"
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -78,22 +72,16 @@ set scrolloff=4
 set winminheight=0
 set foldmethod=indent
 " set foldlevelstart=99
-" }
 
 
-"
 " Searching
-"
 set ignorecase
 set incsearch
 set hlsearch
 set showmatch
-" }
 
 
-"
 " TMP files {{{
-"
 set writebackup
 set undofile
 set backup
@@ -111,12 +99,9 @@ autocmd BufReadPost *
 \ if line("'\"") > 0 && line("'\"") <= line("$") |
 \   exe "normal! g`\"" |
 \ endif
-" }}}
 
 
-"
-" strip white spaces, tabstop and other extention conf {{{
-"
+" strip white spaces, tabstop and other extention conf
 function! s:StripTrailingWhitespaces()
     normal mZ
     let l:chars = col("$")
@@ -142,59 +127,56 @@ augroup configgroup
     autocmd BufEnter *.go setlocal noexpandtab
     autocmd BufEnter *.avsc setlocal ft=json
 augroup END
-" }}}
 
 
-"
-" NERDTree {{{
-"
-silent! map <F3> :NERDTreeToggle<CR>
-autocmd VimEnter * NERDTree | wincmd p
-let g:NERDSpaceDelims = 1
-let g:NERDCustomDelimiters = {
-\  'ledger': { 'left': ';' },
-\  'jcPrj': { 'left': '%' },
-\  'benchTsk': { 'left': '#' }
-\}
-let g:NERDTreeIgnore=['\~$', '\.hi$', '\.o$', '\.class$']
-let g:NERDTreeChDirMode=2 " cwd when root is changed
-let g:NERDTreeHighlightCursorline=0
-" vifm-like bindings:
-let g:NERDTreeMapActivateNode="l"
-let g:NERDTreeMapCloseDir="h"
-let g:NERDTreeMapOpenSplit="L"
-" }}}
+" NERDTree
+if exists(g:NERDTree)
+    silent! map <F3> :NERDTreeToggle<CR>
+    autocmd VimEnter * NERDTree | wincmd p
+    let g:NERDSpaceDelims = 1
+    let g:NERDCustomDelimiters = {
+    \  'ledger': { 'left': ';' },
+    \  'jcPrj': { 'left': '%' },
+    \  'benchTsk': { 'left': '#' }
+    \}
+    let g:NERDTreeIgnore=['\~$', '\.hi$', '\.o$', '\.class$']
+    let g:NERDTreeChDirMode=2 " cwd when root is changed
+    let g:NERDTreeHighlightCursorline=0
+    " vifm-like bindings:
+    let g:NERDTreeMapActivateNode="l"
+    let g:NERDTreeMapCloseDir="h"
+    let g:NERDTreeMapOpenSplit="L"
+end
 
 
-"
-" Perl-support {{{
-"
-let g:Perl_SyntaxCheckOnlyFile = 'yes'
-let g:Perl_Ctrl_j = 'no'
-" }}}
-"
-"
-" gitgutter {{{
-"
-silent! map <F4> :GitGutterToggle<CR>
-" }}}
+" Perl-support
+if exists(g:Perl_Ctrl_j)
+    let g:Perl_SyntaxCheckOnlyFile = 'yes'
+    let g:Perl_Ctrl_j = 'no'
+end
+
+
+" gitgutter
+if exists(g:gitgutter_async)
+    silent! map <F4> :GitGutterToggle<CR>
+end
+
+
+" easymotion 
+if exists(g:EasyMotion_keys)
+    map ; <Plug>(easymotion-prefix)
+end
 
 
 " Open vifm in single pane mode
 let g:vifm_exec_args = "-c only -c 'set vifminfo-=tui'"
-
 let g:AutoCloseExpandSpace = 0
 
 
-"
 " map keys
-"
-"
 " replace currently selected text with default register
 " without yanking it
 vnoremap <leader>p "_dP
-
-map ; <Plug>(easymotion-prefix)
 " kj to go back into normal mode
 inoremap kj <esc>
 cnoremap kj <C-C>
