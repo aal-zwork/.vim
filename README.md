@@ -4,8 +4,8 @@
     cd ~ 
     git clone https://github.com/aal-zwork/.vim 
     git -C .vim submodule update --init --recursive 
-    vim <<-EOF
+    vim &>/dev/null <<-EOF
         :VundleInstall
-        :quit
+        :quita
     EOF
     cd -
