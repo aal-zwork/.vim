@@ -18,6 +18,8 @@ if filereadable(expand($vundle_path . '/README.md'))
     filetype off
     set rtp+=$vundle_path
     call vundle#begin()
+    "Plugin 'morhetz/gruvbox'
+    Plugin 'rafi/awesome-vim-colorschemes'
     Plugin 'aal-zwork/perl-support'
     Plugin 'vim-perl/vim-perl'
     Plugin 'preservim/nerdtree'
@@ -32,7 +34,9 @@ end
 
 
 " UI Layout
-colorscheme 256-jungle
+set background=dark
+set t_Co=256
+"let g:gruvbox_termcolors=16
 colorscheme gruvbox
 syntax on
 set number
@@ -199,6 +203,8 @@ nmap <C-l> <C-w>l
 nmap <C-n> <C-w>n
 nmap <F11> <C-w>=
 nmap <F12> <C-w>_
+vnoremap <C-c> "+y
+vnoremap <C-v> "+p
 " Rus command
 map ё `
 map й q
