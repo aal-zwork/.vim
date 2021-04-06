@@ -28,6 +28,7 @@ if filereadable(expand($vundle_path . '/README.md'))
     Plugin 'junegunn/fzf.vim'
     Plugin 'airblade/vim-gitgutter'
     Plugin 'ryanoasis/vim-devicons'
+    Plugin 'chase/vim-ansible-yaml'
     call vundle#end()
     filetype plugin indent on
 end
@@ -67,11 +68,13 @@ endif
 
 " Spaces & Tabs {{{
 set tabstop=4
-set shiftwidth=4
 set softtabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set retab
 set modelines=1
 set autoindent
-set expandtab
 set nowrap
 " indent lines if wrapping is enabled
 set breakindent
@@ -124,17 +127,18 @@ endfunction
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb,*.yaml,*.yml :call <SID>StripTrailingWhitespaces()
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
-    autocmd BufEnter *.sh setlocal tabstop=2
-    autocmd BufEnter *.sh setlocal shiftwidth=2
-    autocmd BufEnter *.sh setlocal softtabstop=2
+    autocmd BufEnter *.sh,*.yml,*.yaml setlocal tabstop=2
+    autocmd BufEnter *.sh,*.yml,*.yaml setlocal shiftwidth=2
+    autocmd BufEnter *.sh,*.yml,*.yaml setlocal softtabstop=2
     autocmd BufEnter *.py setlocal tabstop=4
     autocmd BufEnter *.md setlocal ft=markdown
     autocmd BufEnter *.go setlocal noexpandtab
     autocmd BufEnter *.avsc setlocal ft=json
+    autocmd BufEnter *.yml,*.yaml ft=yaml
 augroup END
 
 
