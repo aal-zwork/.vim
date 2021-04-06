@@ -72,7 +72,6 @@ set softtabstop=4
 set shiftwidth=4
 set smarttab
 set expandtab
-set retab
 set modelines=1
 set autoindent
 set nowrap
@@ -138,7 +137,6 @@ augroup configgroup
     autocmd BufEnter *.md setlocal ft=markdown
     autocmd BufEnter *.go setlocal noexpandtab
     autocmd BufEnter *.avsc setlocal ft=json
-    autocmd BufEnter *.yml,*.yaml ft=yaml
 augroup END
 
 
