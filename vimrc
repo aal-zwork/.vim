@@ -64,6 +64,8 @@ set laststatus=2
 if has("statusline")
  set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
 endif
+set listchars=tab:→\ ,space:·,nbsp:␣,trail:•,eol:¶,precedes:«,extends:»
+set nolist
 
 
 " Spaces & Tabs {{{
@@ -130,6 +132,9 @@ augroup configgroup
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd BufEnter Makefile setlocal tabstop=8
+    autocmd BufEnter Makefile setlocal softtabstop=8
+    autocmd BufEnter Makefile setlocal shiftwidth=8
     autocmd BufEnter *.sh,*.yml,*.yaml setlocal tabstop=2
     autocmd BufEnter *.sh,*.yml,*.yaml setlocal shiftwidth=2
     autocmd BufEnter *.sh,*.yml,*.yaml setlocal softtabstop=2
@@ -182,6 +187,25 @@ end
 " Open vifm in single pane mode
 let g:vifm_exec_args = "-c only -c 'set vifminfo-=tui'"
 let g:AutoCloseExpandSpace = 0
+
+function! ToggleNumber()
+    let flag=&number
+    if flag
+        set nonumber
+    else
+        set number
+    endif
+endfunction
+map <F8> :call ToggleNumber()<CR>
+function! ToggleList()
+    let flag=&list
+    if flag
+        set nolist
+    else
+        set list
+    endif
+endfunction
+map <F9> :call ToggleList()<CR>
 
 
 " map keys
