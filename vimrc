@@ -29,6 +29,8 @@ if filereadable(expand($vundle_path . '/README.md'))
     Plugin 'airblade/vim-gitgutter'
     Plugin 'ryanoasis/vim-devicons'
     Plugin 'chase/vim-ansible-yaml'
+    Plugin 'ctrlpvim/ctrlp.vim'
+    Plugin 'junegunn/fzf'
     call vundle#end()
     filetype plugin indent on
 end
@@ -112,6 +114,95 @@ autocmd BufReadPost *
 \ endif
 
 
+" This is the default extra key bindings
+nnoremap <silent> <Leader>fb :Buffers<CR>
+nnoremap <silent> <Leader>fp :Files<CR>
+nnoremap <silent> <Leader>ff :Ag<CR>
+nnoremap <silent> <Leader>fr :Rg<CR>
+nnoremap <silent> <Leader>f/ :BLines<CR>
+nnoremap <silent> <Leader>f' :Marks<CR>
+nnoremap <silent> <Leader>fg :Commits<CR>
+nnoremap <silent> <Leader>ft :Helptags<CR>
+nnoremap <silent> <Leader>fhh :History<CR>
+nnoremap <silent> <Leader>fh: :History:<CR>
+nnoremap <silent> <Leader>fh/ :History/<CR> 
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - Popup window (center of the screen)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
+
+" - Popup window (center of the current window)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true } }
+
+" - Popup window (anchored to the bottom of the current window)
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6, 'relative': v:true, 'yoffset': 1.0 } }
+
+" - down / up / left / right
+let g:fzf_layout = { 'down': '40%' }
+
+" - Window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '10new' }
+
+" Customize fzf colors to match your color scheme
+" - fzf#wrap translates this to a set of `--color` options
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+" Enable per-command history
+" - History files will be stored in the specified directory
+" - When set, CTRL-N and CTRL-P will be bound to 'next-history' and
+"   'previous-history' instead of 'down' and 'up'.
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+
+" CTRLP
+nnoremap <silent> <Leader>cb :CtrlPBuffers<CR>
+nnoremap <silent> <Leader>cp :CtrlPCurWD<CR>
+nnoremap <silent> <Leader>c/ :CtrlPLine<CR>
+nnoremap <silent> <Leader>cg :CtrlPChangeAll<CR>
+nnoremap <silent> <Leader>ct :Helptags<CR>
+nnoremap <silent> <Leader>chh :History<CR>
+nnoremap <silent> <Leader>ch: :History:<CR>
+nnoremap <silent> <Leader>ch/ :History/<CR> 
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlPLastMode'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_switch_buffer = 'et'
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
+
 " strip white spaces, tabstop and other extention conf
 function! s:StripTrailingWhitespaces()
     normal mZ
@@ -183,18 +274,30 @@ end
 let g:vifm_exec_args = "-c only -c 'set vifminfo-=tui'"
 let g:AutoCloseExpandSpace = 0
 
+map <Space> <Leader>
+
+" Edit vimr configuration file
+nnoremap <Leader>ve :e $MYVIMRC<CR>
+" " Reload vimr configuration file
+nnoremap <Leader>vr :source $MYVIMRC<CR>
 
 " map keys
 " replace currently selected text with default register
 " without yanking it
-vnoremap <leader>p "_dP
+" vnoremap <Leader>p "_dP
+
+" Shift visual block
+vnoremap > >gv
+vnoremap < <gv
+
 " kj to go back into normal mode
 inoremap kj <esc>
 cnoremap kj <C-C>
+
 " tab moving
-nmap \tn :tabnext<CR>
-nmap \tp :tabprevious<CR>
-nmap \tN :tabnew<CR>
+nmap <Leader>tn :tabnext<CR>
+nmap <Leader>tp :tabprevious<CR>
+nmap <Leader>tN :tabnew<CR>
 " windows moving
 nmap <TAB> <C-w>w
 nmap <S-TAB> <C-w>p
@@ -205,8 +308,16 @@ nmap <C-l> <C-w>l
 nmap <C-n> <C-w>n
 nmap <F11> <C-w>=
 nmap <F12> <C-w>_
-vnoremap <C-c> "+y
-vnoremap <C-v> "+p
+
+"vnoremap <C-c> "+y
+"vnoremap <C-v> "+p
+" resize window
+nnoremap <silent> + :exe "resize " . (winheight(0) * 10/9)<CR>
+nnoremap <silent> _ :exe "resize " . (winheight(0) * 9/10)<CR>
+" resize window
+nnoremap <silent> = :exe "vertical resize " . (winwidth(0) * 10/9)<CR>
+nnoremap <silent> - :exe "vertical resize " . (winwidth(0) * 9/10)<CR>
+
 " Rus command
 map ё `
 map й q
