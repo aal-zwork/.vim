@@ -234,6 +234,16 @@ augroup configgroup
     autocmd BufEnter *.go setlocal noexpandtab
     autocmd BufEnter *.avsc setlocal ft=json
 augroup END
+augroup Binary
+    au!
+    au BufReadPre  *.exe,*.bin,*.iso,*.img let &bin=1
+    au BufReadPost *.exe,*.bin,*.iso,*.img if &bin | %!xxd
+    au BufReadPost *.exe,*.bin,*.iso,*.img set ft=xxd | endif
+    au BufWritePre *.exe,*.bin,*.iso,*.img if &bin | %!xxd -r
+    au BufWritePre *.exe,*.bin,*.iso,*.img endif
+    au BufWritePost *.exe,*.bin,*.iso,*.img if &bin | %!xxd
+    au BufWritePost *.exe,*.bin,*.iso,*.img set nomod | endif
+augroup END
 
 
 " NERDTree
